@@ -3,135 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager - Dashboard</title>
+    <title>TaskWise - Smart Task Management Dashboard</title>
     <link rel="stylesheet" href="css/dashboard.css"> 
-    <link rel="stylesheet" href="css/cards.css"> 
-
+    <link rel="stylesheet" href="css/cards.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="sidebar">
-    <div class="logo">
-        <img src="assets/taskwise-logo-1.png" alt="Logo"> 
-    </div>
-<div class="divider"></div>
-    <div class="nav-items">
-        <div class="nav-item">Dashboard</div>
-        <div class="nav-item" onclick="toggleProjects()">Projects</div>
-        <div class="collapsible" id="projects">
-            <div class="nav-item"> + Add A Project</div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/taskwise-logo-1.png" alt="TaskWise Logo"> 
         </div>
-        <div class="nav-item">Tasks</div>
+        <div class="divider"></div>
+        
+        <nav class="nav-items">
+            <div class="nav-item active">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="toggleProjects()">
+                <i class="fas fa-folder nav-icon"></i>
+                <span>Projects</span>
+                <i class="fas fa-chevron-down nav-arrow"></i>
+            </div>
+            <div class="collapsible" id="projects">
+                <div class="nav-item sub-item">
+                    <i class="fas fa-plus nav-icon"></i>
+                    <span>Add New Project</span>
+                </div>
+                <div class="nav-item sub-item">
+                    <i class="fas fa-briefcase nav-icon"></i>
+                    <span>Work Projects</span>
+                </div>
+                <div class="nav-item sub-item">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>Personal</span>
+                </div>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-tasks nav-icon"></i>
+                <span>All Tasks</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-clock nav-icon"></i>
+                <span>Pomodoro Timer</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-chart-bar nav-icon"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-calendar nav-icon"></i>
+                <span>Calendar</span>
+            </div>
+        </nav>
+
+        <div class="profile">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h4>John Doe</h4>
+                <p>john.doe@taskwise.com</p>
+            </div>
+            <div class="profile-settings">
+                <i class="fas fa-cog"></i>
+            </div>
+        </div>
     </div>
 
-    <div class="profile">
-        <div class="nav-item">
-            <p>Username</p>
-            <p>username@taskwise.com</p>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <h2>Welcome back, John! 👋</h2>
+            <p>Here's what's happening with your tasks today</p>
+        </div>
+        <div class="topbar-right">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="global-search" placeholder="Search tasks, projects...">
+            </div>
+            <div class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </div>
         </div>
     </div>
-</div>
-<div class="topbar">
-    <h1></h1>
-</div>
-<div class="content">
-    <div class="title-section">
-        <h1>My Tasks</h1>
-        <button class="add-task-button">+ New Task</button>
-    </div>
-    <div class="search-section">
-        <input type="text" class="search-bar" placeholder="Search tasks...">
-        <select class="filter-dropdown">
-            <option value="">Filter by</option>
-            <option value="due-today">Due Today</option>
-            <option value="due-week">Due This Week</option>
-            <option value="priority-high">High Priority</option>
-            <option value="priority-medium">Medium Priority</option>
-            <option value="priority-low">Low Priority</option>
-        </select>
-    </div>
-    <div class="card-section">
-    <div class="main">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="one">
-                    <div class="px-3 pb-4">
-                        <div>
-                            <img src="https://img.icons8.com/bubbles/50/000000/blond-short-hair-lady-with-blue-glasses.png" width="15" class="pic1" />
-                            <img src="https://img.icons8.com/bubbles/50/000000/girl-with-chemical-test-tube.png" width="22" class="pic2" />
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>24</h3>
+                    <p>Total Tasks</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+12%</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>18</h3>
+                    <p>Completed</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+8%</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>6</h3>
+                    <p>In Progress</p>
+                </div>
+                <div class="stat-trend neutral">
+                    <i class="fas fa-minus"></i>
+                    <span>0%</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2</h3>
+                    <p>Overdue</p>
+                </div>
+                <div class="stat-trend down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>-4%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Section -->
+        <div class="action-section">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="btn primary">
+                        <i class="fas fa-plus"></i>
+                        New Task
+                    </button>
+                    <button class="btn secondary">
+                        <i class="fas fa-folder-plus"></i>
+                        New Project
+                    </button>
+                    <button class="btn tertiary">
+                        <i class="fas fa-play"></i>
+                        Start Pomodoro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Cards Section -->
+        <div class="tasks-section">
+            <div class="section-header">
+                <h2>Recent Tasks</h2>
+                <div class="filter-tabs">
+                    <button class="tab active">All</button>
+                    <button class="tab">Today</button>
+                    <button class="tab">This Week</button>
+                    <button class="tab">High Priority</button>
+                </div>
+            </div>
+            
+            <div class="task-grid">
+                <!-- Priority Task Card -->
+                <div class="task-card priority-high">
+                    <div class="task-header">
+                        <div class="task-priority high">
+                            <i class="fas fa-exclamation"></i>
                         </div>
-                        <div>
-                            <img src="https://img.icons8.com/bubbles/100/000000/girl-with-glasses-art-palette.png" width="65" />
+                        <div class="task-actions">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-ellipsis-h"></i>
                         </div>
-                        <div>
-                            <img src="https://img.icons8.com/bubbles/50/000000/short-curly-hair-girl-gem.png" width="16" class="pic3" />
-                            <img src="https://img.icons8.com/bubbles/50/000000/girl-and-playing-card.png" width="16" class="pic4" />
+                    </div>
+                    <div class="task-content">
+                        <h3>Website Redesign</h3>
+                        <p>Complete the homepage redesign with new branding and improved UX flow</p>
+                        <div class="task-meta">
+                            <div class="task-project">
+                                <i class="fas fa-folder"></i>
+                                <span>Design Team</span>
+                            </div>
+                            <div class="task-due">
+                                <i class="fas fa-calendar"></i>
+                                <span>Due Today</span>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="project">Add new project +</h4>
+                        <div class="task-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <span>75%</span>
                         </div>
-                        <div>
-                            <p class="quote">Still not enough? Click on a tile to add a new project.</p>
+                        <div class="task-assignees">
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">JD</div>
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">AS</div>
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">MK</div>
                         </div>
                     </div>
                 </div>
-                <div class="pt-2">
-                    <div class="two">
-                        <div class="d-flex justify-content-end px-3 pt-1">
-                            <i class="mdi mdi-star-outline pr-1 star"></i>
-                            <i class="mdi mdi-dots-horizontal dot"></i>
+
+                <!-- Regular Task Card -->
+                <div class="task-card priority-medium">
+                    <div class="task-header">
+                        <div class="task-priority medium">
+                            <i class="fas fa-minus"></i>
                         </div>
-                        <div class="px-3">
-                            <div class="round">
-                                <img src="https://img.icons8.com/emoji/48/000000/hedgehog-emoji.png" width="23" class="imgfix" />
+                        <div class="task-actions">
+                            <i class="far fa-star"></i>
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3>API Documentation</h3>
+                        <p>Write comprehensive documentation for the new REST API endpoints</p>
+                        <div class="task-meta">
+                            <div class="task-project">
+                                <i class="fas fa-folder"></i>
+                                <span>Backend</span>
+                            </div>
+                            <div class="task-due">
+                                <i class="fas fa-calendar"></i>
+                                <span>Tomorrow</span>
                             </div>
                         </div>
-                        <div class="px-3 pt-3">
-                            <h3 class="name">Hedgehogs</h3>
-                            <p class="quote2">These cuties will need a new place where they can live with their owner.</p>
-                        </div>
-                        <div class="d-flex justify-content-start px-3 align-items-center">
-                            <i class="mdi mdi-view-comfy task"></i>
-                            <span class="quote2 pl-2">Task: Commercial project</span>
-                        </div>
-                        <div class="d-flex justify-content-between px-3 align-items-center pb-3">
-                            <div class="d-flex justify-content-start align-items-center">
-                                <i class="mdi mdi-calendar-clock date"></i>
-                                <span class="quote2 pl-2">Date: 01.10.2020</span>
+                        <div class="task-progress">  
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
                             </div>
-                            <div class="d-flex justify-content-end">
-                                <img src="https://img.icons8.com/bubbles/50/000000/short-curly-hair-girl-musical-notes.png" width="20" class="img1" />
-                                <img src="https://img.icons8.com/bubbles/50/000000/girl-and-playing-card.png" width="20" class="img2" />
-                                <img src="https://img.icons8.com/bubbles/50/000000/short-hair-girl-question-mark.png" width="20" class="img3" />
+                            <span>45%</span>
+                        </div>
+                        <div class="task-assignees">
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">RJ</div>
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)">LM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Low Priority Task Card -->
+                <div class="task-card priority-low">
+                    <div class="task-header">
+                        <div class="task-priority low">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="task-actions">
+                            <i class="far fa-star"></i>
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3>Team Meeting Prep</h3>
+                        <p>Prepare agenda and materials for weekly team sync meeting</p>
+                        <div class="task-meta">
+                            <div class="task-project">
+                                <i class="fas fa-folder"></i>
+                                <span>Management</span>
                             </div>
+                            <div class="task-due">
+                                <i class="fas fa-calendar"></i>
+                                <span>Friday</span>
+                            </div>
+                        </div>
+                        <div class="task-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%"></div>
+                            </div>
+                            <span>20%</span>
+                        </div>
+                        <div class="task-assignees">
+                            <div class="assignee-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">JD</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add New Task Card -->
+                <div class="task-card add-task" onclick="openTaskModal()">
+                    <div class="add-task-content">
+                        <div class="add-task-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <h3>Add New Task</h3>
+                        <p>Click here to create a new task and boost your productivity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Upcoming -->
+        <div class="bottom-section">
+            <div class="activity-panel">
+                <h3>Recent Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>You</strong> completed <em>Database Schema Design</em></p>
+                            <span>2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon assigned">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>Sarah</strong> assigned <em>Mobile App Testing</em> to you</p>
+                            <span>4 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon commented">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>Mike</strong> commented on <em>Website Redesign</em></p>
+                            <span>6 hours ago</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Repeat similar structure for more cards -->
-            <div class="col-md-4">
-                <div class="two">
-                    <!-- Card 2 content -->
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="two">
-                    <!-- Card 3 content -->
+
+            <div class="upcoming-panel">
+                <h3>Upcoming Deadlines</h3>
+                <div class="upcoming-list">
+                    <div class="upcoming-item urgent">
+                        <div class="upcoming-date">
+                            <span class="day">15</span>
+                            <span class="month">Oct</span>
+                        </div>
+                        <div class="upcoming-content">
+                            <h4>Client Presentation</h4>
+                            <p>Final presentation to the client</p>
+                        </div>
+                    </div>
+                    <div class="upcoming-item">
+                        <div class="upcoming-date">
+                            <span class="day">18</span>
+                            <span class="month">Oct</span>
+                        </div>
+                        <div class="upcoming-content">
+                            <h4>Code Review</h4>
+                            <p>Review new feature implementation</p>
+                        </div>
+                    </div>
+                    <div class="upcoming-item">
+                        <div class="upcoming-date">
+                            <span class="day">22</span>
+                            <span class="month">Oct</span>
+                        </div>
+                        <div class="upcoming-content">
+                            <h4>Sprint Planning</h4>
+                            <p>Plan next development sprint</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 
+    <script>
+        function toggleProjects() {
+            const projects = document.getElementById('projects');
+            const arrow = document.querySelector('.nav-arrow');
+            
+            if (projects.style.display === 'block') {
+                projects.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                projects.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
 
+        function openTaskModal() {
+            alert('New Task Modal would open here!');
+        }
 
-<script>
-    function toggleProjects() {
-        const projects = document.getElementById('projects');
-        projects.style.display = projects.style.display === 'block' ? 'none' : 'block';
-    }
-</script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
+        // Add some interactivity to task cards
+        document.querySelectorAll('.task-card:not(.add-task)').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-2px)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(0)';
+                }, 200);
+            });
+        });
+    </script>
 </body>
 </html>
