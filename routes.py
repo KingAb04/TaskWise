@@ -10,6 +10,11 @@ def register_routes(app):
     @app.route('/')
     def dashboard():
         return render_template('index.html')
+        
+    @app.route('/focus')
+    def focus():
+        """Serve the Pomodoro focus timer page"""
+        return render_template('focus.html')
 
     # API Routes for Tasks
     @app.route('/api/tasks', methods=['GET'])

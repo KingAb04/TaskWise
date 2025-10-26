@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/floating-timer.css') }}">
 </head>
 <body>
     <!-- Sidebar Navigation -->
@@ -45,9 +46,9 @@
                 <i class="fas fa-tasks nav-icon"></i>
                 <span>All Tasks</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="window.location.href='{{ url_for('focus') }}'">
                 <i class="fas fa-clock nav-icon"></i>
-                <span>Pomodoro Timer</span>
+                <span>Focus Timer</span>
             </div>
             <div class="nav-item">
                 <i class="fas fa-chart-bar nav-icon"></i>
@@ -162,9 +163,9 @@
                         <i class="fas fa-folder-plus"></i>
                         New Project
                     </button>
-                    <button class="btn tertiary">
+                    <button class="btn tertiary" onclick="window.location.href='{{ url_for('focus') }}'">
                         <i class="fas fa-play"></i>
-                        Start Pomodoro
+                        Start Focus Timer
                     </button>
                 </div>
             </div>
@@ -381,5 +382,6 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/taskwise.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/taskwise-timer.js') }}"></script>
 </body>
 </html>

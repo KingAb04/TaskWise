@@ -1,0 +1,130 @@
+.floating-timer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    width: 280px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    font-family: "Inter", sans-serif;
+    cursor: move;
+    user-select: none;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s;
+}
+
+.floating-timer.minimized {
+    width: auto;
+    padding: 10px;
+}
+
+.floating-timer:hover {
+    transform: translateY(-2px);
+}
+
+.timer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.timer-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.timer-control {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 2px;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.timer-control:hover {
+    color: white;
+}
+
+.timer-display {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px 0;
+    font-variant-numeric: tabular-nums;
+    color: white;
+}
+
+.timer-status {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin: 0;
+}
+
+.timer-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.timer-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.timer-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.timer-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Mode colors */
+.floating-timer.pomodoro { border-color: rgba(255, 59, 59, 0.3); }
+.floating-timer.short { border-color: rgba(76, 175, 80, 0.3); }
+.floating-timer.long { border-color: rgba(33, 150, 243, 0.3); }
+
+/* Minimized state */
+.floating-timer.minimized .timer-status,
+.floating-timer.minimized .timer-actions {
+    display: none;
+}
+
+.floating-timer.minimized .timer-header {
+    margin-bottom: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .floating-timer {
+        bottom: 10px;
+        right: 10px;
+        width: 240px;
+    }
+    
+    .timer-display {
+        font-size: 32px;
+    }
+}
