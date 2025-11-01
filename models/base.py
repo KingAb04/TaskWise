@@ -1,17 +1,6 @@
 from config import db
 from datetime import datetime, timedelta
-from enum import Enum
-
-class TaskStatus(Enum):
-    TODO = "todo"
-    IN_PROGRESS = "in_progress"
-    COMPLETED = "completed"
-    OVERDUE = "overdue"
-
-class Priority(Enum):
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
+from models import TaskStatus, Priority  # Import from __init__.py
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -53,7 +42,6 @@ class Task(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     completed_at = db.Column(db.DateTime)
-    time_spent = db.Column(db.Float, default=0)
     
     # Progress tracking fields
     estimated_hours = db.Column(db.Float)  # Estimated hours to complete
@@ -62,9 +50,20 @@ class Task(db.Model):
     last_tracked = db.Column(db.DateTime)  # Last time tracking entry
     is_tracking = db.Column(db.Boolean, default=False)  # Currently tracking time
     
-    # Foreign Keys
+    # Foreign Keys and Relationships
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
     parent_task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))  # For task hierarchy
+    
+    # Relationships
+    time_entries = db.relationship('TimeEntry', backref='task', lazy=True, cascade='all, delete-orphan')
+    subtasks = db.relationship('Subtask', backref='parent_task', lazy=True, cascade='all, delete-orphan')
+    dependencies = db.relationship(
+        'Task',
+        secondary='task_dependencies',
+        primaryjoin='Task.id == TaskDependency.task_id',
+        secondaryjoin='Task.id == TaskDependency.depends_on_id',
+        backref=db.backref('dependent_tasks', lazy=True)
+    )
     
     def __repr__(self):
         return f'<Task {self.title}>'
@@ -80,6 +79,9 @@ class Task(db.Model):
         subtask_count = len(self.subtasks) if hasattr(self, 'subtasks') else 0
         completed_subtasks = sum(1 for subtask in self.subtasks if subtask.completed) if hasattr(self, 'subtasks') else 0
         subtask_progress = (completed_subtasks / subtask_count * 100) if subtask_count > 0 else 0
+        
+        # Get progress calculator
+        calculate_progress = get_progress_calculator()
         
         return {
             'id': self.id,
@@ -121,21 +123,8 @@ class Task(db.Model):
             'parent_task_id': self.parent_task_id,
             
             # Calculated overall progress
-            'calculated_progress': self.calculate_task_progress()
+            'calculated_progress': calculate_progress(self)
         }
-    
-    def calculate_task_progress(self):
-        if self.status == TaskStatus.COMPLETED:
-            return 100
-        elif self.status == TaskStatus.TODO:
-            return 0
-        
-        # For IN_PROGRESS tasks
-        if self.estimated_hours and self.estimated_hours > 0:
-            progress = (self.time_spent / self.estimated_hours) * 100
-            return min(99, progress)  # Cap at 99% until explicitly completed
-        
-        return 50  # Default to 50% if no estimated hours
     
     def mark_completed(self):
         self.status = TaskStatus.COMPLETED
@@ -147,3 +136,8 @@ class Task(db.Model):
         if self.due_date and self.status != TaskStatus.COMPLETED:
             return datetime.utcnow() > self.due_date
         return False
+
+# Function to handle circular imports
+def get_progress_calculator():
+    from models.progress_tracking import calculate_task_progress
+    return calculate_task_progress

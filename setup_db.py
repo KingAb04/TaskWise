@@ -32,18 +32,18 @@ def create_database():
 def insert_sample_data():
     """Insert sample data for testing"""
     from config import create_app, db
-    from models import Project, Task, Priority, TaskStatus
+    from models import Project, Task, Priority, TaskStatus, TimeEntry, Subtask
     from datetime import datetime, timedelta
     
     app = create_app()
     with app.app_context():
-        # Create tables
+        # Drop existing tables and create new ones
+        print("Dropping existing tables...")
+        db.drop_all()
+        print("Creating new tables...")
         db.create_all()
         
-        # Check if data already exists
-        if Project.query.first():
-            print("Sample data already exists!")
-            return
+        print("Inserting sample data...")
         
         # Create sample projects
         projects = [
@@ -67,7 +67,11 @@ def insert_sample_data():
                 status=TaskStatus.IN_PROGRESS,
                 progress=75,
                 due_date=datetime.now() + timedelta(days=2),
-                project_id=1
+                project_id=1,
+                estimated_hours=16.0,
+                actual_hours=12.0,
+                start_date=datetime.now() - timedelta(days=3),
+                is_tracking=False
             ),
             Task(
                 title="API Documentation",

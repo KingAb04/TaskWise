@@ -15,6 +15,16 @@ def register_routes(app):
     def focus():
         """Serve the Pomodoro focus timer page"""
         return render_template('focus.html')
+        
+    @app.route('/tasks')
+    def tasks():
+        """Serve the All Tasks page"""
+        return render_template('tasks.html')
+
+    @app.route('/calendar')
+    def calendar():
+        """Serve the Calendar page"""
+        return render_template('calendar.html')
 
     # API Routes for Tasks
     @app.route('/api/tasks', methods=['GET'])

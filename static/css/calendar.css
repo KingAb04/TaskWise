@@ -1,0 +1,213 @@
+.calendar-container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Mini Calendar Styles */
+.calendar-panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    color: #2d3748;
+}
+
+.view-all-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.view-all-link:hover {
+    text-decoration: underline;
+}
+
+#miniCalendar {
+    max-height: 300px;
+    margin-bottom: 20px;
+}
+
+#miniCalendar .fc-header-toolbar {
+    margin-bottom: 1em !important;
+}
+
+#miniCalendar .fc-toolbar-title {
+    font-size: 1.2em !important;
+}
+
+#miniCalendar .fc-button {
+    padding: 0.2em 0.4em !important;
+    font-size: 0.9em !important;
+}
+
+#miniCalendar .fc-daygrid-day {
+    height: 30px !important;
+}
+
+#miniCalendar .fc-daygrid-day-events {
+    margin: 0 !important;
+    min-height: 0 !important;
+}
+
+#miniCalendar .fc-event {
+    margin: 1px 0 !important;
+    padding: 1px 2px !important;
+    font-size: 0.8em !important;
+}
+
+.calendar-filters {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+#calendar {
+    height: calc(100vh - 250px);
+}
+
+/* FullCalendar Customization */
+.fc {
+    font-family: inherit;
+}
+
+.fc-toolbar-title {
+    font-size: 1.5em !important;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.fc-button-primary {
+    background-color: #667eea !important;
+    border-color: #667eea !important;
+}
+
+.fc-button-primary:hover {
+    background-color: #5a67d8 !important;
+    border-color: #5a67d8 !important;
+}
+
+.fc-day-today {
+    background-color: #ebf4ff !important;
+}
+
+.fc-event {
+    cursor: pointer;
+    padding: 2px 4px;
+    margin: 1px 0;
+    border: none;
+    border-radius: 4px;
+}
+
+.priority-high {
+    background-color: #feb2b2 !important;
+    border-left: 3px solid #e53e3e !important;
+}
+
+.priority-medium {
+    background-color: #fbd38d !important;
+    border-left: 3px solid #dd6b20 !important;
+}
+
+.priority-low {
+    background-color: #9ae6b4 !important;
+    border-left: 3px solid #38a169 !important;
+}
+
+.fc-event-time {
+    font-weight: 500;
+}
+
+.fc-event-title {
+    font-weight: normal;
+}
+
+/* Task Details Modal Customization */
+.task-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f7fafc;
+    border-radius: 8px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-item i {
+    color: #667eea;
+}
+
+.task-description {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.task-progress {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #edf2f7;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #667eea;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+    font-size: 14px;
+    color: #4a5568;
+}

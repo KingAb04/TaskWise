@@ -5,6 +5,7 @@ class TaskWise {
         this.tasks = [];
         this.projects = [];
         this.currentFilter = 'all';
+        this.currentProjectId = null;
         this.init();
     }
 
@@ -13,7 +14,95 @@ class TaskWise {
         await this.loadTasks();
         await this.loadStats();
         this.setupEventListeners();
+        this.initializeMiniCalendar();
         this.renderDashboard();
+    }
+
+    initializeMiniCalendar() {
+        const calendarEl = document.getElementById('miniCalendar');
+        if (!calendarEl) return;
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'today'
+            },
+            height: 'auto',
+            events: this.getCalendarEvents.bind(this),
+            eventClick: this.handleCalendarEventClick.bind(this),
+            eventClassNames: this.getEventClassNames.bind(this),
+            eventContent: this.renderEventContent.bind(this),
+            eventDidMount: this.handleEventMount.bind(this)
+        });
+
+        calendar.render();
+        this.miniCalendar = calendar;
+    }
+
+    getCalendarEvents() {
+        return this.tasks
+            .filter(task => task.due_date)
+            .map(task => ({
+                id: task.id.toString(),
+                title: task.title,
+                start: task.due_date,
+                className: `priority-${task.priority}`,
+                extendedProps: {
+                    description: task.description,
+                    priority: task.priority,
+                    project: task.project,
+                    progress: task.progress,
+                    status: task.status
+                }
+            }));
+    }
+
+    handleCalendarEventClick(info) {
+        const taskId = parseInt(info.event.id);
+        this.showTaskDetails(taskId);
+    }
+
+    getEventClassNames(info) {
+        const task = this.tasks.find(t => t.id === parseInt(info.event.id));
+        if (!task) return [];
+
+        const classes = [`priority-${task.priority}`];
+        if (task.status === 'completed') classes.push('completed');
+        if (task.status === 'overdue') classes.push('overdue');
+        return classes;
+    }
+
+    renderEventContent(info) {
+        const task = this.tasks.find(t => t.id === parseInt(info.event.id));
+        if (!task) return;
+
+        return {
+            html: `
+                <div class="fc-event-main-inner">
+                    <div class="fc-event-title" title="${this.escapeHtml(task.title)}">
+                        ${this.escapeHtml(task.title)}
+                    </div>
+                </div>
+            `
+        };
+    }
+
+    handleEventMount(info) {
+        const task = this.tasks.find(t => t.id === parseInt(info.event.id));
+        if (!task) return;
+
+        // Add tooltip with more details
+        const tooltip = `
+            ${task.title}
+            Status: ${task.status}
+            Priority: ${task.priority}
+            ${task.project ? `Project: ${task.project.name}` : ''}
+            Progress: ${task.progress}%
+        `;
+
+        info.el.setAttribute('title', tooltip);
     }
 
     // API Methods
@@ -245,22 +334,26 @@ class TaskWise {
         const projectsContainer = document.querySelector('#projects');
         if (!projectsContainer) return;
 
-        // Clear existing projects (keep add project button)
-        const addProjectBtn = projectsContainer.querySelector('.nav-item');
-        projectsContainer.innerHTML = '';
-        
-        // Re-add the add project button
-        if (addProjectBtn) {
-            projectsContainer.appendChild(addProjectBtn);
-        }
+        // Start with the "Add New Project" button
+        projectsContainer.innerHTML = `
+            <div class="nav-item sub-item" id="addProjectBtn">
+                <i class="fas fa-plus nav-icon"></i>
+                <span>Add New Project</span>
+            </div>
+        `;
 
-        // Add projects
+        // Add event listener to the "Add New Project" button
+        document.getElementById('addProjectBtn').addEventListener('click', () => this.showProjectModal());
+
+        // Add projects with task counts
         this.projects.forEach(project => {
+            const taskCount = this.tasks.filter(task => task.project_id === project.id).length;
             const projectItem = document.createElement('div');
-            projectItem.className = 'nav-item sub-item';
+            projectItem.className = `nav-item sub-item${this.currentProjectId === project.id ? ' active' : ''}`;
             projectItem.innerHTML = `
                 <i class="fas fa-circle nav-icon" style="color: ${project.color}"></i>
                 <span>${this.escapeHtml(project.name)}</span>
+                <span class="project-task-count">${taskCount}</span>
             `;
             projectItem.addEventListener('click', () => this.filterByProject(project.id));
             projectsContainer.appendChild(projectItem);
@@ -474,7 +567,28 @@ class TaskWise {
     }
 
     filterByProject(projectId) {
+        // Set the current project ID
+        this.currentProjectId = projectId;
+
+        // Update the UI to show which project is selected
+        document.querySelectorAll('#projects .nav-item.sub-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.querySelector(`[data-project-id="${projectId}"]`)) {
+                item.classList.add('active');
+            }
+        });
+
+        // Clear other filters
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelector('.tab:first-child').classList.add('active');
+        this.currentFilter = 'all';
+
+        // Load tasks for this project
         this.loadTasks({ project_id: projectId });
+
+        // Update Projects button to show current project
+        const projectName = this.projects.find(p => p.id === projectId)?.name || 'All Projects';
+        document.querySelector('.nav-item[onclick="toggleProjects()"] span').textContent = projectName;
     }
 
     showNotification(type, message) {
@@ -516,12 +630,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleProjects() {
     const projects = document.getElementById('projects');
     const arrow = document.querySelector('.nav-arrow');
+    const projectsButton = document.querySelector('.nav-item[onclick="toggleProjects()"]');
     
-    if (projects.style.display === 'block') {
-        projects.style.display = 'none';
-        arrow.style.transform = 'rotate(0deg)';
-    } else {
-        projects.style.display = 'block';
-        arrow.style.transform = 'rotate(180deg)';
-    }
+    projects.classList.toggle('show');
+    arrow.style.transform = projects.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+    projectsButton.classList.toggle('active');
 }
